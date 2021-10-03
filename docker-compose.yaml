@@ -1,0 +1,27 @@
+version: "3.8"
+
+services:
+  database:
+    image: postgres:latest
+    restart: always
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_PASSWORD: 12345
+
+  emailMicroService:
+    build: emailMicroservice
+    restart: always
+    ports:
+      - "8080:8080"
+      - "8081:8081"
+    environment:
+      spring.profiles.ctive: dev
+      #add properties accordingly
+      spring.datasource.url: jdbc:postgresql://database:5432/postgres
+    depends_on:
+      - database
+
+
+#database volume
+#rabbitMQ container
